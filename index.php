@@ -19,6 +19,11 @@ $route->get("/localizacao","Web:localization");
 $route->get("/contato","Web:contact");
 $route->post("/contato","Web:contact");
 
+$route->get("/cadastrar","Web:register"); // redenriza o Registro
+$route->post("/cadastrar","Web:register"); // recebe os dados do formulário
+$route->get("/login","Web:login");
+$route->post("/login","Web:login");
+
 /**
  * App Routs
  */

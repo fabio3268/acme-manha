@@ -18,6 +18,7 @@
     <link href="<?= url("assets/web/"); ?>plugins/slick/slick-theme.css" rel="stylesheet">
     <!-- CUSTOM CSS -->
     <link href="<?= url("assets/web/"); ?>css/style.css" rel="stylesheet">
+    <link href="<?= url("assets/web/"); ?>css/message.css" rel="stylesheet">
     <!-- FAVICON -->
     <link href="<?= url("assets/web/"); ?>images/favicon.png" rel="shortcut icon">
 </head>
@@ -28,7 +29,7 @@
 <nav class="navbar main-nav border-less fixed-top navbar-expand-lg p-0">
     <div class="container-fluid p-0">
         <!-- logo -->
-        <a class="navbar-brand" href="index.html">
+        <a class="navbar-brand" href="<?= url(); ?>">
             <img src="<?= url("assets/web/"); ?>images/logo.png" alt="logo">
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -42,12 +43,12 @@
                     </a>
                     <!-- Dropdown list -->
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="index.html">Homepage</a>
-                        <a class="dropdown-item" href="homepage-two.html">Homepage 2</a>
+                        <a class="dropdown-item" href="<?= url(); ?>">Homepage</a>
+                        <a class="dropdown-item" href="<?= url(); ?>">Homepage 2</a>
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="speakers.html">Speakers
+                    <a class="nav-link" href="<?= url(); ?>">Speakers
                         <span>/</span>
                     </a>
                 </li>
@@ -55,14 +56,22 @@
                     <a class="nav-link" href="#" data-toggle="dropdown">Pages<span>/</span></a>
                     <!-- Dropdown list -->
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="about-us.html">About Us</a>
-                        <a class="dropdown-item" href="single-speaker.html">Single Speaker</a>
-                        <a class="dropdown-item" href="gallery.html">Gallery</a>
-                        <a class="dropdown-item" href="gallery-two.html">Gallery-02</a>
-                        <a class="dropdown-item" href="testimonial.html">Testimonial</a>
-                        <a class="dropdown-item" href="pricing.html">Pricing</a>
-                        <a class="dropdown-item" href="FAQ.html">FAQ</a>
-                        <a class="dropdown-item" href="404.html">404</a>
+                        <a class="dropdown-item" href="<?= url("sobre"); ?>">About Us</a>
+                        <a class="dropdown-item" href="<?= url(); ?>">Single Speaker</a>
+                        <a class="dropdown-item" href="<?= url(); ?>">Gallery</a>
+                        <a class="dropdown-item" href="<?= url(); ?>">Gallery-02</a>
+                        <a class="dropdown-item" href="<?= url(); ?>">Testimonial</a>
+                        <a class="dropdown-item" href="<?= url(); ?>">Pricing</a>
+                        <a class="dropdown-item" href="<?= url(); ?>">FAQ</a>
+                        <a class="dropdown-item" href="<?= url(); ?>">404</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown dropdown-slide">
+                    <a class="nav-link" href="#" data-toggle="dropdown">Submeter Trabalhos<span>/</span></a>
+                    <!-- Dropdown list -->
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="<?= url("cadastrar"); ?>">Cadastrar</a>
+                        <a class="dropdown-item" href="<?= url("login"); ?>">Entrar</a>
                     </div>
                 </li>
                 <li class="nav-item">
