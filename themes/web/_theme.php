@@ -62,7 +62,7 @@
                         <a class="dropdown-item" href="<?= url(); ?>">Gallery-02</a>
                         <a class="dropdown-item" href="<?= url(); ?>">Testimonial</a>
                         <a class="dropdown-item" href="<?= url(); ?>">Pricing</a>
-                        <a class="dropdown-item" href="<?= url(); ?>">FAQ</a>
+                        <a class="dropdown-item" href="<?= url("faq"); ?>">FAQ</a>
                         <a class="dropdown-item" href="<?= url(); ?>">404</a>
                     </div>
                 </li>
