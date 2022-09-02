@@ -76,9 +76,10 @@ $this->layout("_theme");
                                 const user = await data.json();
                                 console.log(user);
                                 if(user) {
-                                    if(user.type == "success"){
-                                        message.innerHTML = user.message + ` Olá, ${user.name}!`;
-                                    } else {
+
+                                    } else {if(user.type == "success"){
+                                        //.innerHTML = user.message + ` Olá, ${user.name}!`;
+                                        window.location.href = "app";
                                         message.innerHTML = user.message;
                                     }
                                     message.classList.add("message");
