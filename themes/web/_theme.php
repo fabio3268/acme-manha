@@ -37,35 +37,38 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav mx-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="<?= url(); ?>">Home<span>/</span></a>
+                </li>
+                <!--
                 <li class="nav-item dropdown active dropdown-slide">
-                    <a class="nav-link" href=""<?= url(); ?>""  data-toggle="dropdown">Home
+                    <a class="nav-link" href="#"  data-toggle="dropdown">Home
                         <span>/</span>
                     </a>
-                    <!-- Dropdown list -->
-                    <!--
                     <div class="dropdown-menu">
                         <a class="dropdown-item" href="#">Homepage</a>
                         <a class="dropdown-item" href="#">Homepage 2</a>
                     </div>
-                    -->
                 </li>
+                -->
+                <!--
                 <li class="nav-item">
-                    <a class="nav-link" href="<?= url(); ?>">Speakers
+                    <a class="nav-link" href="#">Speakers
                         <span>/</span>
                     </a>
                 </li>
+                -->
                 <li class="nav-item dropdown dropdown-slide">
                     <a class="nav-link" href="#" data-toggle="dropdown">Pages<span>/</span></a>
                     <!-- Dropdown list -->
                     <div class="dropdown-menu">
                         <a class="dropdown-item" href="<?= url("sobre"); ?>">About Us</a>
-                        <a class="dropdown-item" href="<?= url(); ?>">Single Speaker</a>
-                        <a class="dropdown-item" href="<?= url(); ?>">Gallery</a>
-                        <a class="dropdown-item" href="<?= url(); ?>">Gallery-02</a>
-                        <a class="dropdown-item" href="<?= url(); ?>">Testimonial</a>
-                        <a class="dropdown-item" href="<?= url(); ?>">Pricing</a>
                         <a class="dropdown-item" href="<?= url("faq"); ?>">FAQ</a>
-                        <a class="dropdown-item" href="<?= url(); ?>">404</a>
+                        <!--
+                        <a class="dropdown-item" href="#">Single Speaker</a>
+                        <a class="dropdown-item" href="#">Gallery</a>
+                        <a class="dropdown-item" href="#">Gallery-02</a>
+                        -->
                     </div>
                 </li>
                 <li class="nav-item dropdown dropdown-slide">
@@ -75,7 +78,7 @@
                         <?php
                         foreach ($categories as $category){
                             ?>
-                            <a class="dropdown-item" href="<?= url("projetos/{$category->id}"); ?>"><?= $category->level . $category->field; ?></a>
+                            <a class="dropdown-item" href="<?= url("projetos/{$category->id}"); ?>"><?= $category->level . " " . $category->field; ?></a>
                             <?php
                         }
                         ?>
@@ -89,12 +92,14 @@
                         <a class="dropdown-item" href="<?= url("login"); ?>">Entrar</a>
                     </div>
                 </li>
+                <!--
                 <li class="nav-item">
                     <a class="nav-link" href="schedule.html">Schedule<span>/</span></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="sponsors.html">Sponsors<span>/</span></a>
                 </li>
+                -->
                 <li class="nav-item dropdown dropdown-slide">
                     <a class="nav-link" href="#"  data-toggle="dropdown">News
                         <span>/</span>
@@ -107,9 +112,11 @@
                         <a class="dropdown-item" href="news-single.html">News Single</a>
                     </div>
                 </li>
+                <!--
                 <li class="nav-item">
                     <a class="nav-link" href="contact.html">Contact</a>
                 </li>
+                -->
             </ul>
             <a href="#" class="ticket">
                 <img src="<?= url("assets/web/"); ?>images/icon/ticket.png" alt="ticket">

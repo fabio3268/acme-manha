@@ -1,3 +1,3 @@
 <?php
-$this->layout("_theme",["categories" => $this->categories]);
+  $this->layout("_theme",["categories" => $categories]);
 ?>

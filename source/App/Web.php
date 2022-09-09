@@ -22,6 +22,7 @@ class Web
 
     public function home() : void
     {
+
         echo $this->view->render(
             "home",[
                 "categories" => $this->categories
