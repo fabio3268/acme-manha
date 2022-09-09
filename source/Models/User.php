@@ -165,7 +165,9 @@ class User
         $stmt->bindParam(":email", $this->email);
         $stmt->bindValue(":password", password_hash($this->password,PASSWORD_DEFAULT));
         $stmt->execute();
+        $this->id = Connect::getInstance()->lastInsertId();
         $this->message = "Usuário cadastrado com sucesso!";
+        $_SESSION["user"] = $this;
         return true;
     }
 
@@ -187,10 +189,11 @@ class User
             }
         }
 
+        $this->id = $user->id;
         $this->name = $user->name;
         $this->email = $user->email;
         $this->message = "Usuário Autorizado, redirect to APP!";
-
+        $_SESSION["user"] = $this;
         return true;
     }
 

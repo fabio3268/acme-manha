@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 ob_start();
 
@@ -15,16 +16,29 @@ $route->namespace("Source\App");
 $route->get("/","Web:home");
 $route->get("/sobre","Web:about");
 $route->get("/localizacao","Web:localization");
-//$route->get("/projeto","Web:project");
 $route->get("/contato","Web:contact");
 $route->post("/contato","Web:contact");
 
+/**
+ * FAQ
+ */
 $route->get("/faq","Web:faq");
+
+/**
+ * REGISTER USER
+ */
 
 $route->get("/cadastrar","Web:register"); // redenriza o Registro
 $route->post("/cadastrar","Web:register"); // recebe os dados do formulário
 $route->get("/login","Web:login");
 $route->post("/login","Web:login");
+
+/**
+ * PROJECTS
+ */
+
+$route->get("/projetos/{idCategory}","Web:projects");
+
 
 /**
  * App Routs

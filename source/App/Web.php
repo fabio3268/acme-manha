@@ -3,35 +3,37 @@
 namespace Source\App;
 
 use League\Plates\Engine;
+use Source\Models\Category;
 use Source\Models\faq;
+use Source\Models\Project;
 use Source\Models\User;
 
 class Web
 {
     private $view;
+    private $categories;
 
     public function __construct()
     {
+        $categories = new Category();
+        $this->categories = $categories->selectAll();
         $this->view = new Engine(CONF_VIEW_WEB,'php');
     }
 
     public function home() : void
     {
-         //require __DIR__ . "/../../themes/web/home.php";
-
-        $user = new User(20);
-        $user->findById();
-
-        echo $this->view->render("home",["user" => $user]);
+        echo $this->view->render(
+            "home",[
+                "categories" => $this->categories
+            ]
+        );
     }
 
     public function about() : void
     {
-        echo $this->view->render("about",
-            [
-                "name" => "Fábio Santos",
-                "age" => 46
-            ]); // Engine
+        echo $this->view->render("about",[
+            "categories" => $this->categories
+        ]);
     }
 
     public function register(?array $data) : void
@@ -93,6 +95,7 @@ class Web
         }
 
         echo $this->view->render("register",[
+            "categories" => $this->categories,
             "eventName" => CONF_SITE_NAME
         ]);
     }
@@ -141,7 +144,10 @@ class Web
 
         }
 
-        echo $this->view->render("login",["eventName" => CONF_SITE_NAME]);
+        echo $this->view->render("login",[
+            "categories" => $this->categories,
+            "eventName" => CONF_SITE_NAME
+        ]);
 
     }
 
@@ -152,21 +158,42 @@ class Web
         //var_dump($faqs);
 
         echo $this->view->render("faq",[
+            "categories" => $this->categories,
             "faqs" => $faqs,
             "name" => "Fábio"
         ]);
+    }
+
+    public function projects(?array $data) : void
+    {
+        if(!empty($data)){
+            //var_dump($data);
+            $project = new Project();
+            $projects = $project->findByCategory($data["idCategory"]);
+            //var_dump($projects);
+        }
+        echo $this->view->render(
+            "projects",[
+                "categories" => $this->categories,
+                "projects" => $projects
+            ]
+        );
     }
     
     public function localization()
     {
         //echo "Localização";
-        echo $this->view->render("localization"); // Engine
+        echo $this->view->render("localization",[
+            "categories" => $this->categories
+        ]); // Engine
     }
 
     public function contact(array $data) : void
     {
         //var_dump($data);
-        echo $this->view->render("contact");
+        echo $this->view->render("contact",[
+            "categories" => $this->categories
+        ]);
     }
 
     public function error(array $data) : void

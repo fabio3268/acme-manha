@@ -67,6 +67,19 @@
                     </div>
                 </li>
                 <li class="nav-item dropdown dropdown-slide">
+                    <a class="nav-link" href="#" data-toggle="dropdown">Projetos<span>/</span></a>
+                    <!-- Dropdown list -->
+                    <div class="dropdown-menu">
+                        <?php
+                        foreach ($categories as $category){
+                            ?>
+                            <a class="dropdown-item" href="<?= url("projetos/{$category->id}"); ?>"><?= $category->level . $category->field; ?></a>
+                            <?php
+                        }
+                        ?>
+                    </div>
+                </li>
+                <li class="nav-item dropdown dropdown-slide">
                     <a class="nav-link" href="#" data-toggle="dropdown">Submeter Trabalhos<span>/</span></a>
                     <!-- Dropdown list -->
                     <div class="dropdown-menu">

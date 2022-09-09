@@ -1,5 +1,5 @@
 <?php
-$this->layout("_theme");
+$this->layout("_theme",["categories" => $categories]);
 ?>
 <!--==================================
 =            LOGIN            =
@@ -74,12 +74,11 @@ $this->layout("_theme");
                                     body: dataUser,
                                 });
                                 const user = await data.json();
-                                console.log(user);
+                                //console.log(user);
                                 if(user) {
-
-                                    } else {if(user.type == "success"){
-                                        //.innerHTML = user.message + ` Olá, ${user.name}!`;
-                                        window.location.href = "app";
+                                    if(user.message === "message"){
+                                        message.innerHTML = user.message + ` Olá, ${user.name}!`;
+                                    } else {
                                         message.innerHTML = user.message;
                                     }
                                     message.classList.add("message");
