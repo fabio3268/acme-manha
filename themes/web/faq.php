@@ -29,7 +29,7 @@ $this->layout("_theme",["categories" => $categories]);
                                   <div class="card-header" id="headingOne">
                                       <h5 class="mb-0">
                                           <a data-toggle="collapse" href="#collapseOne">
-                                              <span class="fa fa-plus-circle"></span><?= $faq->question; ?> <?= $name; ?>
+                                              <span class="fa fa-plus-circle"></span><?= $faq->question; ?>
                                           </a>
                                       </h5>
                                   </div>

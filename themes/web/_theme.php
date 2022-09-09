@@ -38,14 +38,16 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav mx-auto">
                 <li class="nav-item dropdown active dropdown-slide">
-                    <a class="nav-link" href="#"  data-toggle="dropdown">Home
+                    <a class="nav-link" href=""<?= url(); ?>""  data-toggle="dropdown">Home
                         <span>/</span>
                     </a>
                     <!-- Dropdown list -->
+                    <!--
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="<?= url(); ?>">Homepage</a>
-                        <a class="dropdown-item" href="<?= url(); ?>">Homepage 2</a>
+                        <a class="dropdown-item" href="#">Homepage</a>
+                        <a class="dropdown-item" href="#">Homepage 2</a>
                     </div>
+                    -->
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="<?= url(); ?>">Speakers

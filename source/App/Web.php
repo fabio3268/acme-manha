@@ -31,7 +31,8 @@ class Web
 
     public function about() : void
     {
-        echo $this->view->render("about",[
+        echo $this->view->render(
+            "about",[
             "categories" => $this->categories
         ]);
     }
@@ -94,7 +95,8 @@ class Web
             return;
         }
 
-        echo $this->view->render("register",[
+        echo $this->view->render(
+            "register",[
             "categories" => $this->categories,
             "eventName" => CONF_SITE_NAME
         ]);
@@ -155,22 +157,18 @@ class Web
     {
         $faq = new Faq();
         $faqs = $faq->selectAll();
-        //var_dump($faqs);
 
         echo $this->view->render("faq",[
             "categories" => $this->categories,
-            "faqs" => $faqs,
-            "name" => "Fábio"
+            "faqs" => $faqs
         ]);
     }
 
     public function projects(?array $data) : void
     {
         if(!empty($data)){
-            //var_dump($data);
             $project = new Project();
             $projects = $project->findByCategory($data["idCategory"]);
-            //var_dump($projects);
         }
         echo $this->view->render(
             "projects",[
@@ -182,15 +180,13 @@ class Web
     
     public function localization()
     {
-        //echo "Localização";
         echo $this->view->render("localization",[
             "categories" => $this->categories
-        ]); // Engine
+        ]);
     }
 
     public function contact(array $data) : void
     {
-        //var_dump($data);
         echo $this->view->render("contact",[
             "categories" => $this->categories
         ]);
@@ -198,8 +194,6 @@ class Web
 
     public function error(array $data) : void
     {
-//      echo "<h1>Erro {$data["errcode"]}</h1>";
-//      include __DIR__ . "/../../themes/web/404.php";
         echo $this->view->render("404", [
             "title" => "Erro {$data["errcode"]} | " . CONF_SITE_NAME,
             "error" => $data["errcode"]
