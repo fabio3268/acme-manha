@@ -157,6 +157,25 @@ class User
         }
     }
 
+    public function update()
+    {
+        $query = "UPDATE users SET name = :name, email = :email, photo = :photo WHERE id = :id";
+        $stmt = Connect::getInstance()->prepare($query);
+        $stmt->bindParam(":name",$this->name);
+        $stmt->bindParam(":email",$this->email);
+        $stmt->bindParam(":photo",$this->photo);
+        $stmt->bindParam(":id",$this->id);
+        $stmt->execute();
+        $arrayUser = [
+            "id" => $this->id,
+            "name" => $this->name,
+            "email" => $this->email,
+            "photo" => $this->photo
+        ];
+        $_SESSION["user"] = $arrayUser;
+        $this->message = "Usuário alterado com sucesso!";
+    }
+
     public function insert() : bool
     {
         $query = "INSERT INTO users (name, email, password) VALUES (:name, :email, :password)";
@@ -193,7 +212,15 @@ class User
         $this->name = $user->name;
         $this->email = $user->email;
         $this->message = "Usuário Autorizado, redirect to APP!";
-        $_SESSION["user"] = $this;
+
+        $arrayUser = [
+            "id" => $this->id,
+            "name" => $this->name,
+            "email" => $this->email
+        ];
+
+        $_SESSION["user"] = $arrayUser;
+        setcookie("user","Logado",time()+60*60,"/");
         return true;
     }
 

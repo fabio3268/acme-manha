@@ -4,7 +4,7 @@ namespace Source\App;
 
 use League\Plates\Engine;
 use Source\Models\Category;
-use Source\Models\faq;
+use Source\Models\Faq;
 use Source\Models\Project;
 use Source\Models\User;
 
@@ -150,7 +150,7 @@ class Web
         echo $this->view->render("login",[
             "categories" => $this->categories,
             "eventName" => CONF_SITE_NAME
-        ]);
+         ]);
 
     }
 
@@ -165,16 +165,36 @@ class Web
         ]);
     }
 
-    public function projects(?array $data) : void
+    public function projectsByCategory(?array $data) : void
     {
-        if(!empty($data)){
+
+        //var_dump($_SESSION["user"]);
+        if(!empty($data["idCategory"])){
             $project = new Project();
             $projects = $project->findByCategory($data["idCategory"]);
         }
+
         echo $this->view->render(
             "projects",[
                 "categories" => $this->categories,
                 "projects" => $projects
+            ]
+        );
+
+    }
+
+    public function projectById(?array $data): void
+    {
+        var_dump($_SESSION["user"]);
+        if(!empty($data["titleProject"])){
+            $project = new Project($data["idProject"]);
+            $project->findById();
+        }
+
+        echo $this->view->render(
+            "projects",[
+                "categories" => $this->categories,
+                "project" => $project
             ]
         );
     }

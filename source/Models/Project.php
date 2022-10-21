@@ -13,6 +13,46 @@ class Project
     private $idCategory;
 
     /**
+     * @return int|null
+     */
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getTitle(): ?string
+    {
+        return $this->title;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getAbstract(): ?string
+    {
+        return $this->abstract;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getText(): ?string
+    {
+        return $this->text;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getIdCategory(): ?int
+    {
+        return $this->idCategory;
+    }
+
+    /**
      * @param $id
      * @param $title
      * @param $abstract
@@ -44,6 +84,23 @@ class Project
         } else {
             return $stmt->fetchAll();
         }
+    }
+
+    public function findById()
+    {
+        $query = "SELECT * FROM projects WHERE id = :id";
+        $stmt = Connect::getInstance()->prepare($query);
+        $stmt->bindParam(":id",$this->id);
+        $stmt->execute();
+
+        if($stmt->rowCount() == 0){
+            return false;
+        } else {
+            $project = $stmt->fetch();
+            $this->title = $project->title;
+            return true;
+        }
+
     }
 
 }

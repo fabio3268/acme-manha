@@ -76,14 +76,15 @@ $this->layout("_theme",["categories" => $categories]);
                                 const user = await data.json();
                                 //console.log(user);
                                 if(user) {
-                                    if(user.message === "message"){
-                                        message.innerHTML = user.message + ` Olá, ${user.name}!`;
+                                    if(user.type === "success"){
+                                        window.location.href = "http://www.localhost/acme-manha/app";
                                     } else {
+                                        console.log(user);
                                         message.innerHTML = user.message;
+                                        message.classList.add("message");
+                                        message.classList.remove("success", "warning", "error");
+                                        message.classList.add(`${user.type}`);
                                     }
-                                    message.classList.add("message");
-                                    message.classList.remove("success", "warning", "error");
-                                    message.classList.add(`${user.type}`);
                                 }
                             });
                         </script>

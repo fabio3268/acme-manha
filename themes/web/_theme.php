@@ -78,7 +78,7 @@
                         <?php
                         foreach ($categories as $category){
                             ?>
-                            <a class="dropdown-item" href="<?= url("projetos/{$category->id}"); ?>"><?= $category->level . " " . $category->field; ?></a>
+                            <a class="dropdown-item" href="<?= url("projetos/medio/{$category->id}"); ?>"><?= $category->level . " " . $category->field; ?></a>
                             <?php
                         }
                         ?>

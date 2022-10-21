@@ -1,7 +1,8 @@
 <?php
-session_start();
 
 ob_start();
+
+session_start();
 
 require __DIR__ . "/vendor/autoload.php";
 use CoffeeCode\Router\Router;
@@ -13,6 +14,7 @@ $route = new Router(CONF_URL_BASE, ":");
  */
 
 $route->namespace("Source\App");
+
 $route->get("/","Web:home");
 $route->get("/sobre","Web:about");
 $route->get("/localizacao","Web:localization");
@@ -37,8 +39,8 @@ $route->post("/login","Web:login");
  * PROJECTS
  */
 
-$route->get("/projetos/{idCategory}","Web:projects");
-
+$route->get("/projetos/{category}/{idCategory}","Web:projectsByCategory");
+$route->get("/projeto/{idProject}/{titleProject}","Web:projectById");
 
 /**
  * App Routs
@@ -46,6 +48,11 @@ $route->get("/projetos/{idCategory}","Web:projects");
 
 $route->group("/app"); // agrupa em /app
 $route->get("/","App:home");
+$route->get("/logout","App:logout");
+
+$route->get("/perfil","App:profile");
+$route->post("/perfil","App:profileUpdate");
+
 $route->get("/listar","App:list");
 $route->get("/pdf","App:createPDF");
 $route->group(null); // desagrupo do /app
