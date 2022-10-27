@@ -49,6 +49,8 @@ class App
         $user = new User($_SESSION["user"]["id"]);
         $user->findById();
 
+        var_dump($user);
+
         echo $this->view->render("profile",[
             "user" => $user
         ]);
@@ -57,15 +59,41 @@ class App
     public function profileUpdate(array $data) : void
     {
         if(!empty($data)){
+
+            if(in_array("",$data)){
+                $userJson = [
+                    "message" => "Informe todos os campos!",
+                    "type" => "alert-danger"
+                ];
+                echo json_encode($userJson);
+                return;
+            }
+
+            if(!empty($_FILES['photo']['tmp_name'])) {
+                $upload = uploadImage($_FILES['photo']);
+                unlink($_SESSION["user"]["photo"]);
+            } else {
+                // se não houve alteração da imagem, manda a imagem que está na sessão
+                $upload = $_SESSION["user"]["photo"];
+            }
+
             $user = new User(
                 $_SESSION["user"]["id"],
                 $data["name"],
                 $data["email"],
                 null ,
-                null
+                null,
+                $upload
             );
             $user->update();
-            echo json_encode($data);
+            $userJson = [
+                "message" => $user->getMessage(),
+                "type" => "alert-success",
+                "name" => $user->getName(),
+                "email" => $user->getEmail(),
+                "photo" => url($user->getPhoto())
+            ];
+            echo json_encode($userJson);
         }
     }
 

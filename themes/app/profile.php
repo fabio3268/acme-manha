@@ -23,7 +23,13 @@ $this->layout("_theme");
             Mensagem de Retorno!
         </div>
         <div class="mb-3">
-
+            <?php
+            if(!empty($user->getPhoto())):
+                ?>
+                <img src="<?= url($user->getPhoto()); ?>" class="img-thumbnail" id="photoShow" alt="...">
+            <?php
+            endif;
+            ?>
         </div>
     </form>
 </div>
@@ -39,8 +45,14 @@ $this->layout("_theme");
             body: dataUser,
         });
         const user = await data.json();
-        console.log(user);
+        console.log(user.photo);
+        if(user) {
+            if(user.type === "alert-success") {
+                photoShow.setAttribute("src",user.photo);
+            }
+            message.textContent = user.message;
+            message.classList.remove("alert-primary", "alert-danger");
+            message.classList.add(`${user.type}`);
+        }
     });
-
-
 </script>

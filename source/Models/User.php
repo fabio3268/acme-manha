@@ -11,6 +11,7 @@ class User
     private $email;
     private $password;
     private $document;
+    private $photo;
     private $message;
 
     /**
@@ -98,13 +99,29 @@ class User
         return $this->message;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getPhoto()
+    {
+        return $this->photo;
+    }
+
+    /**
+     * @param mixed $photo
+     */
+    public function setPhoto($photo): void
+    {
+        $this->photo = $photo;
+    }
 
     public function __construct(
         int $id = NULL,
         string $name = NULL,
         string $email = NULL,
         string $password = NULL,
-        string $document= NULL
+        string $document= NULL,
+        string $photo = NULL
     )
     {
         $this->id = $id;
@@ -112,6 +129,7 @@ class User
         $this->email = $email;
         $this->password = $password;
         $this->document = $document;
+        $this->photo = $photo;
     }
 
     public function selectAll ()
@@ -140,6 +158,8 @@ class User
             $user = $stmt->fetch();
             $this->name = $user->name;
             $this->email = $user->email;
+            $this->document = $user->document;
+            $this->photo = $user->photo;
             return true;
         }
     }
