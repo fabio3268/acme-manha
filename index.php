@@ -50,8 +50,18 @@ $route->group("/app"); // agrupa em /app
 $route->get("/","App:home");
 $route->get("/logout","App:logout");
 
+/**
+ * Perfil
+ */
 $route->get("/perfil","App:profile");
 $route->post("/perfil","App:profileUpdate");
+
+/**
+ * Projects
+ */
+$route->get("/projeto-registro","App:projectRegister"); // mostra o form
+$route->post("/projeto-registro","App:projectRegister"); // recebe os dados do form
+
 
 $route->get("/listar","App:list");
 $route->get("/pdf","App:createPDF");

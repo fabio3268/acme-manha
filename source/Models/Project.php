@@ -103,5 +103,19 @@ class Project
 
     }
 
+    public function insert() : bool
+    {
+        $query = "INSERT INTO projects (title, abstract, text, idCategory) 
+                  VALUES (:title, :abstract, :text, :idCategory)";
+        $stmt = Connect::getInstance()->prepare($query);
+        $stmt->bindParam(":title", $this->title);
+        $stmt->bindParam(":abstract", $this->abstract);
+        $stmt->bindParam(":text", $this->text);
+        $stmt->bindParam(":idCategory", $this->idCategory);
+        $stmt->execute();
+        $this->id = Connect::getInstance()->lastInsertId(); // armazena o id do projeto incluido
+        $this->message = "Projeto cadastrado com sucesso!";
+        return true;
+    }
 }
 

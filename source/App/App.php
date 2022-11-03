@@ -3,7 +3,9 @@
 namespace Source\App;
 
 use League\Plates\Engine;
+use Source\Models\Category;
 use Source\Models\User;
+use Source\Models\Project;
 
 class App
 {
@@ -49,7 +51,7 @@ class App
         $user = new User($_SESSION["user"]["id"]);
         $user->findById();
 
-        var_dump($user);
+        //var_dump($user);
 
         echo $this->view->render("profile",[
             "user" => $user
@@ -95,6 +97,40 @@ class App
             ];
             echo json_encode($userJson);
         }
+    }
+
+    public function projectRegister(array $data) : void
+    {
+        if(!empty($data)){
+            $data = filter_var_array($data,FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $json = [
+                "message" => "",
+                "type" => "",
+                "titulo" => $data["title"],
+                "abstract" => $data["abstract"],
+                "category" => $data["category"]
+            ];
+
+            $project = new Project(
+                null,
+                $data["title"],
+                $data["abstract"],
+                $data["text"],
+                $data["category"]
+            );
+
+            $project->insert();
+
+            echo json_encode($json);
+            return;
+        }
+
+        $catagory = new Category();
+        $categories = $catagory->selectAll();
+        //var_dump($categories);
+        echo $this->view->render("project-register",[
+            "categories" => $categories
+        ]);
     }
 
 }
