@@ -26,13 +26,13 @@ DROP TABLE IF EXISTS `addresses`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `addresses` (
                              `id` int(11) NOT NULL AUTO_INCREMENT,
+                             `idUser` int(11) NOT NULL,
                              `street` varchar(45) NOT NULL,
                              `number` varchar(45) NOT NULL,
                              `complement` varchar(45) NOT NULL,
                              `city` varchar(45) NOT NULL,
                              `state` varchar(45) NOT NULL,
                              `zipCode` varchar(45) NOT NULL,
-                             `idUser` int(11) NOT NULL,
                              `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
                              `udated_at` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp(),
                              PRIMARY KEY (`id`),
@@ -48,33 +48,6 @@ CREATE TABLE `addresses` (
 LOCK TABLES `addresses` WRITE;
 /*!40000 ALTER TABLE `addresses` DISABLE KEYS */;
 /*!40000 ALTER TABLE `addresses` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `authors`
---
-
-DROP TABLE IF EXISTS `authors`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `authors` (
-                           `id` int(11) NOT NULL AUTO_INCREMENT,
-                           `school` varchar(255) NOT NULL,
-                           `idUser` int(11) NOT NULL,
-                           PRIMARY KEY (`id`),
-                           KEY `fk_authors_users1_idx` (`idUser`),
-                           CONSTRAINT `fk_authors_users1` FOREIGN KEY (`idUser`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `authors`
---
-
-LOCK TABLES `authors` WRITE;
-/*!40000 ALTER TABLE `authors` DISABLE KEYS */;
-INSERT INTO `authors` VALUES (1,'Charqueadas',2);
-/*!40000 ALTER TABLE `authors` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -100,61 +73,6 @@ LOCK TABLES `categories` WRITE;
 /*!40000 ALTER TABLE `categories` DISABLE KEYS */;
 INSERT INTO `categories` VALUES (1,'Ensino Fundamental','Matemática e suas tecnologias / Ciências da Natureza e suas tecnologias'),(2,'Ensino Fundamental','Ciências Humanas e suas tecnologias / Linguagens, códigos e suas tecnologias'),(3,'Ensino Médio','Matemática e suas tecnologias / Ciências da Natureza e suas tecnologias'),(4,'Ensino Médio','Ciências Humanas e suas tecnologias / Linguagens, códigos e suas tecnologias'),(5,'Ensino Médio Integrado','Ciências Exatas e Biológicas'),(6,'Ensino Médio Integrado','Ciências Humanas, Comportamentais, Linguagens e Artes'),(7,'Ensino Médio Integrado','Engenharias'),(8,'Ensino Médio Integrado','Informática'),(9,'Ensino Médio Integrado','Meio Ambiente'),(10,'Ensino Superior e Pós-Graduação','Matemática e suas tecnologias / Ciências da Natureza e suas tecnologias'),(11,'Ensino Superior e Pós-Graduação','Ciências Humanas e suas tecnologias / Linguagens, códigos e suas tecnologias');
 /*!40000 ALTER TABLE `categories` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `evaluates_project`
---
-
-DROP TABLE IF EXISTS `evaluates_project`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `evaluates_project` (
-                                     `id` int(11) NOT NULL AUTO_INCREMENT,
-                                     `idEvaluators` int(11) NOT NULL,
-                                     `idProjects` int(11) NOT NULL,
-                                     PRIMARY KEY (`id`),
-                                     KEY `fk_evaluators_has_projects_projects1_idx` (`idProjects`),
-                                     KEY `fk_evaluators_has_projects_evaluators1_idx` (`idEvaluators`),
-                                     CONSTRAINT `fk_evaluators_has_projects_evaluators1` FOREIGN KEY (`idEvaluators`) REFERENCES `evaluators` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-                                     CONSTRAINT `fk_evaluators_has_projects_projects1` FOREIGN KEY (`idProjects`) REFERENCES `projects` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `evaluates_project`
---
-
-LOCK TABLES `evaluates_project` WRITE;
-/*!40000 ALTER TABLE `evaluates_project` DISABLE KEYS */;
-/*!40000 ALTER TABLE `evaluates_project` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `evaluators`
---
-
-DROP TABLE IF EXISTS `evaluators`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `evaluators` (
-                              `id` int(11) NOT NULL AUTO_INCREMENT,
-                              `linkLattes` varchar(255) NOT NULL,
-                              `idUser` int(11) NOT NULL,
-                              PRIMARY KEY (`id`),
-                              KEY `fk_evaluators_users1_idx` (`idUser`),
-                              CONSTRAINT `fk_evaluators_users1` FOREIGN KEY (`idUser`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `evaluators`
---
-
-LOCK TABLES `evaluators` WRITE;
-/*!40000 ALTER TABLE `evaluators` DISABLE KEYS */;
-INSERT INTO `evaluators` VALUES (1,'lLink lattes',3);
-/*!40000 ALTER TABLE `evaluators` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -185,6 +103,32 @@ INSERT INTO `faqs` VALUES (1,'Como submeter um projeto?','It is a long establish
 UNLOCK TABLES;
 
 --
+-- Table structure for table `project_images`
+--
+
+DROP TABLE IF EXISTS `project_images`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `project_images` (
+                                  `id` int(11) NOT NULL AUTO_INCREMENT,
+                                  `idProject` int(11) NOT NULL,
+                                  `image` varchar(255) NOT NULL,
+                                  PRIMARY KEY (`id`),
+                                  KEY `fk_project_images_projects1_idx` (`idProject`),
+                                  CONSTRAINT `fk_project_images_projects1` FOREIGN KEY (`idProject`) REFERENCES `projects` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `project_images`
+--
+
+LOCK TABLES `project_images` WRITE;
+/*!40000 ALTER TABLE `project_images` DISABLE KEYS */;
+/*!40000 ALTER TABLE `project_images` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `projects`
 --
 
@@ -193,16 +137,16 @@ DROP TABLE IF EXISTS `projects`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `projects` (
                             `id` int(11) NOT NULL AUTO_INCREMENT,
+                            `idCategory` int(11) NOT NULL,
                             `title` varchar(255) NOT NULL,
                             `abstract` varchar(255) NOT NULL,
                             `text` varchar(255) NOT NULL,
-                            `idCategory` int(11) NOT NULL,
                             `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
                             `updated_at` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp(),
                             PRIMARY KEY (`id`),
                             KEY `fk_projects_category1_idx` (`idCategory`),
                             CONSTRAINT `fk_projects_category1` FOREIGN KEY (`idCategory`) REFERENCES `categories` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -211,8 +155,36 @@ CREATE TABLE `projects` (
 
 LOCK TABLES `projects` WRITE;
 /*!40000 ALTER TABLE `projects` DISABLE KEYS */;
-INSERT INTO `projects` VALUES (13,'Projeto 01','Resumo 01','Texto',1,'2022-08-09 20:02:16','2022-09-08 13:31:10'),(14,'Projeto 02','Resumo 02','Texto 2',1,'2022-08-09 20:10:39','2022-09-09 10:39:43'),(15,'Projeto 03','Resumo 03','Texto',3,'2022-09-08 13:31:10',NULL),(16,'Projeto 04','Resumo 04','Texto',1,'2022-09-08 13:31:10','2022-09-09 10:39:43'),(17,'Projeto 05','Resumo 05','Texto',5,'2022-09-08 13:32:09',NULL);
+INSERT INTO `projects` VALUES (13,1,'Projeto 01','Resumo 01','Texto','2022-08-09 20:02:16','2022-09-08 13:31:10'),(14,1,'Projeto 02','Resumo 02','Texto 2','2022-08-09 20:10:39','2022-09-09 10:39:43'),(15,3,'Projeto 03','Resumo 03','Texto','2022-09-08 13:31:10',NULL),(16,1,'Projeto 04','Resumo 04','Texto','2022-09-08 13:31:10','2022-09-09 10:39:43'),(17,5,'Projeto 05','Resumo 05','Texto','2022-09-08 13:32:09',NULL),(18,5,'T&iacute;tulo do Meu Projeto','Resumo do meu projeto...','Texto do meu projeto...','2022-10-26 17:22:11',NULL),(19,10,'T&iacute;tulo do Meu Projeto','Resumo do meu projeto...','Texto do meu projeto...','2022-10-28 13:37:23',NULL);
 /*!40000 ALTER TABLE `projects` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `reviewer_projects`
+--
+
+DROP TABLE IF EXISTS `reviewer_projects`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `reviewer_projects` (
+                                     `id` int(11) NOT NULL AUTO_INCREMENT,
+                                     `idProject` int(11) NOT NULL,
+                                     `idUser` int(11) NOT NULL,
+                                     PRIMARY KEY (`id`),
+                                     KEY `fk_reviwers_projects_projects1_idx` (`idProject`),
+                                     KEY `fk_reviwers_projects_users1_idx` (`idUser`),
+                                     CONSTRAINT `fk_reviwers_projects_projects1` FOREIGN KEY (`idProject`) REFERENCES `projects` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+                                     CONSTRAINT `fk_reviwers_projects_users1` FOREIGN KEY (`idUser`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `reviewer_projects`
+--
+
+LOCK TABLES `reviewer_projects` WRITE;
+/*!40000 ALTER TABLE `reviewer_projects` DISABLE KEYS */;
+/*!40000 ALTER TABLE `reviewer_projects` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -228,11 +200,13 @@ CREATE TABLE `users` (
                          `email` varchar(45) NOT NULL,
                          `password` varchar(255) NOT NULL,
                          `document` varchar(45) DEFAULT NULL,
+                         `photo` varchar(255) DEFAULT NULL,
+                         `type` char(1) NOT NULL DEFAULT 'W' COMMENT 'Admin - Writer - Reviewer',
                          `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
                          `updated_at` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp(),
                          PRIMARY KEY (`id`),
                          UNIQUE KEY `email_UNIQUE` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -241,36 +215,37 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'Fábio','fabio@gmail.com','sfsdfsdfsdf','3454363','2022-07-15 11:50:25',NULL),(2,'Aluno01','aluno@gmail.com','1234567','12345','2022-07-25 11:36:46',NULL),(3,'Avaliador01','avaliador@gmail.com','1234','1234','2022-07-25 12:01:15',NULL),(35,'Fábio Santos Fábio','fabio3268@gmail.com','$2y$10$ipz.8RVkp8k6UMcgGdoBa.JKvG6sM6lh0j/ZqLwitoWtLuwhjBnz.',NULL,'2022-09-02 11:11:38',NULL);
+INSERT INTO `users` VALUES (1,'Escritor 01','escritor01@gmail.com','$2y$10$GbrrydsALV/fddCHPxdakeM1zAnljkzT.0cVB/iW3loCoM2ysqczu','9696969696',NULL,'W','2022-07-15 11:50:25','2022-11-23 12:13:54'),(2,'Escritor 02','escritor02@gmail.com','$2y$10$GbrrydsALV/fddCHPxdakeM1zAnljkzT.0cVB/iW3loCoM2ysqczu','1212121212',NULL,'W','2022-07-25 11:36:46','2022-11-23 12:13:54'),(3,'Escritor 03','escritor03@gmail.com','$2y$10$GbrrydsALV/fddCHPxdakeM1zAnljkzT.0cVB/iW3loCoM2ysqczu','2323232322',NULL,'W','2022-07-25 12:01:15','2022-11-23 12:13:54'),(35,'Escritor 04','escritor04@gmail.com','$2y$10$GbrrydsALV/fddCHPxdakeM1zAnljkzT.0cVB/iW3loCoM2ysqczu','3434343434',NULL,'W','2022-09-02 11:11:38','2022-11-23 12:13:54'),(36,'Escritor 05','escritor05@gmail.com','$2y$10$GbrrydsALV/fddCHPxdakeM1zAnljkzT.0cVB/iW3loCoM2ysqczu','4545454545','storage/images/2022/11/71f9d67f1d0fd0b76ad3e9964ef32ae4.png','W','2022-10-18 17:43:16','2022-11-23 12:12:49');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `write_project`
+-- Table structure for table `write_projects`
 --
 
-DROP TABLE IF EXISTS `write_project`;
+DROP TABLE IF EXISTS `write_projects`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `write_project` (
-                                 `id` int(11) NOT NULL AUTO_INCREMENT,
-                                 `idAuthors` int(11) NOT NULL,
-                                 `idProjects` int(11) NOT NULL,
-                                 PRIMARY KEY (`id`),
-                                 KEY `fk_authors_has_projects_projects1_idx` (`idProjects`),
-                                 KEY `fk_authors_has_projects_authors1_idx` (`idAuthors`),
-                                 CONSTRAINT `fk_authors_has_projects_authors1` FOREIGN KEY (`idAuthors`) REFERENCES `authors` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-                                 CONSTRAINT `fk_authors_has_projects_projects1` FOREIGN KEY (`idProjects`) REFERENCES `projects` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `write_projects` (
+                                  `id` int(11) NOT NULL AUTO_INCREMENT,
+                                  `idProject` int(11) NOT NULL,
+                                  `idUser` int(11) NOT NULL,
+                                  PRIMARY KEY (`id`),
+                                  KEY `fk_authors_has_projects_projects1_idx` (`idProject`),
+                                  KEY `fk_write_project_users1_idx` (`idUser`),
+                                  CONSTRAINT `fk_authors_has_projects_projects1` FOREIGN KEY (`idProject`) REFERENCES `projects` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+                                  CONSTRAINT `fk_write_project_users1` FOREIGN KEY (`idUser`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `write_project`
+-- Dumping data for table `write_projects`
 --
 
-LOCK TABLES `write_project` WRITE;
-/*!40000 ALTER TABLE `write_project` DISABLE KEYS */;
-/*!40000 ALTER TABLE `write_project` ENABLE KEYS */;
+LOCK TABLES `write_projects` WRITE;
+/*!40000 ALTER TABLE `write_projects` DISABLE KEYS */;
+INSERT INTO `write_projects` VALUES (1,13,1),(2,13,2),(3,13,3),(4,14,1);
+/*!40000 ALTER TABLE `write_projects` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -290,4 +265,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2022-09-09  7:58:17
+-- Dump completed on 2022-11-23  9:15:56
