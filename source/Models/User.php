@@ -244,4 +244,15 @@ class User
         return true;
     }
 
+    public function getArray() : array
+    {
+        return ["user" => [
+            "id" => $this->getId(),
+            "name" => $this->getName(),
+            "email" => $this->getEmail(),
+            "document" => $this->getDocument(),
+            "photo" => $this->getPhoto()
+        ]];
+    }
+
 }
