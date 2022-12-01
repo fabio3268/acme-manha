@@ -22,8 +22,8 @@
         <select name="category" class="form-select" aria-label="Default select example">
             <option selected>Selecione a Categoria do Projeto...</option>
             <?php
-            if(!empty($categories)){
-                foreach ($categories as $category){
+            if(!empty($categoriesList)){
+                foreach ($categoriesList as $category){
                     echo "<option value=\"{$category->id}\">{$category->level} - {$category->field}</option>";
                 }
             }

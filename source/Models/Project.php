@@ -86,23 +86,6 @@ class Project
         }
     }
 
-    public function findById()
-    {
-        $query = "SELECT * FROM projects WHERE id = :id";
-        $stmt = Connect::getInstance()->prepare($query);
-        $stmt->bindParam(":id",$this->id);
-        $stmt->execute();
-
-        if($stmt->rowCount() == 0){
-            return false;
-        } else {
-            $project = $stmt->fetch();
-            $this->title = $project->title;
-            return true;
-        }
-
-    }
-
     public function insert() : bool
     {
         $query = "INSERT INTO projects (title, abstract, text, idCategory) 
@@ -116,6 +99,41 @@ class Project
         $this->id = Connect::getInstance()->lastInsertId(); // armazena o id do projeto incluido
         $this->message = "Projeto cadastrado com sucesso!";
         return true;
+    }
+
+    public function findById()
+    {
+        $query = "SELECT * FROM projects WHERE id = :id";
+        $stmt = Connect::getInstance()->prepare($query);
+        $stmt->bindParam(":id", $this->id);
+        $stmt->execute();
+
+        if($stmt->rowCount() == 0){
+            return false;
+        } else {
+            $project = $stmt->fetch();
+            $this->title = $project->title;
+            $this->abstract = $project->abstract;
+            return true;
+        }
+    }
+
+    public function findByidUser(int $idUser)
+    {
+        $query = "SELECT * 
+                  FROM projects 
+                  JOIN write_projects ON projects.id = write_projects.idProject 
+                  WHERE idUser = :idUser";
+        $stmt = Connect::getInstance()->prepare($query);
+        $stmt->bindParam(":idUser", $idUser);
+        $stmt->execute();
+
+        if($stmt->rowCount() == 0){
+            return false;
+        } else {
+            return $stmt->fetchAll();
+        }
+
     }
 }
 

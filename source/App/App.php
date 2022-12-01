@@ -6,6 +6,7 @@ use League\Plates\Engine;
 use Source\Models\Category;
 use Source\Models\User;
 use Source\Models\Project;
+use Source\Models\WriteProject;
 
 class App
 {
@@ -101,16 +102,11 @@ class App
 
     public function projectRegister(array $data) : void
     {
+        $categories = new Category();
+        $categoriesList = $categories->selectAll();
+
         if(!empty($data)){
             $data = filter_var_array($data,FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-            $json = [
-                "message" => "",
-                "type" => "",
-                "titulo" => $data["title"],
-                "abstract" => $data["abstract"],
-                "category" => $data["category"]
-            ];
-
             $project = new Project(
                 null,
                 $data["title"],
@@ -121,15 +117,28 @@ class App
 
             $project->insert();
 
-            echo json_encode($json);
+            $writeProject = new WriteProject(
+                NULL,
+                $project->getId(),
+                $_SESSION["user"]["id"]
+            );
+
+            $writeProject->writeProjectInsert();
+
+            $json = [
+                "message" => "",
+                "type" => "",
+                "id" => $project->getId(),
+                "titulo" => $data["title"],
+                "abstract" => $data["abstract"],
+                "category" => $data["category"]
+            ];
+
+            echo json_encode($json, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
             return;
         }
-
-        $catagory = new Category();
-        $categories = $catagory->selectAll();
-        //var_dump($categories);
         echo $this->view->render("project-register",[
-            "categories" => $categories
+            "categoriesList" => $categoriesList
         ]);
     }
 
