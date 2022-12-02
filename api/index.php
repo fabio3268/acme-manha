@@ -12,11 +12,15 @@ $route->namespace("Source\App");
 // USERS
 // get dos dados do usuário
 $route->get("/user","Api:getUser");
-$route->put("/user","Api:putUser");
+
 // get dos projetos de um usuário
 $route->get("/user/projects","Api:getProjects");
 // get de um único projeto
 $route->get("/user/project/{idProject}","Api:getProject");
+
+// cadastra um novo usuário
+$route->post("/user","Api:createUser");
+$route->put("/user","Api:updateUser");
 
 $route->dispatch();
 

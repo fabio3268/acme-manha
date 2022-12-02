@@ -5,13 +5,31 @@ namespace Source\App;
 use Source\Models\Project;
 use Source\Models\User;
 
+/**
+ *
+ */
 class Api
 {
+    /**
+     * @var User
+     */
+    private $user;
+    /**
+     * @var array|false
+     */
+    private $headers;
 
+    /**
+     *
+     */
     public function __construct()
     {
         header('Content-Type: application/json; charset=UTF-8');
         $headers = getallheaders();
+        if($headers["Rule"] == "N"){
+           $this->headers = $headers;
+           return;
+        } 
         if(empty($headers["Email"]) || empty($headers["Password"]) || empty($headers["Rule"])){
             $response = [
                 "code" => 400,
@@ -34,6 +52,43 @@ class Api
         }
     }
 
+    /**
+     * @return void
+     */
+    public function createUser()
+    {
+        $user = new User(
+            NULL,
+            $this->headers["Name"],
+            $this->headers["Email"],
+            $this->headers["Password"]
+        );
+        $user->insert();
+        $response = [
+            "code" => 200,
+            "type" => "success",
+            "message" => "Usuário cadastrado com sucesso...",
+            "user" => $user->getArray()
+        ];
+        echo json_encode($response, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+    }
+
+    /**
+     * @return void
+     */
+    public function updateUser()
+    {
+        $response = [
+            "code" => 200,
+            "type" => "success",
+            "message" => "Alterando um usuário..."
+        ];
+        echo json_encode($response, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+    }
+
+    /**
+     * @return void
+     */
     public function getUser()
     {
         // Só mostra quando encontrar
@@ -42,6 +97,9 @@ class Api
         }
     }
 
+    /**
+     * @return void
+     */
     public function getProjects()
     {
         if($this->user->getId() != null){
@@ -67,32 +125,38 @@ class Api
         }
     }
 
+    /**
+     * @param array $data
+     * @return void
+     */
     public function getProject(array $data) : void
     {
-        if(!empty($data)){
-            $project = new Project($data["idProject"]);
+        if($this->user->getId() != null){
+            if(!empty($data)){
+                $project = new Project($data["idProject"]);
 
-            if(!$project->findByid()){
+                if(!$project->findByid()){
+                    $response = [
+                        "code" => 400,
+                        "type" => "bad_request",
+                        "message" => "Projeto não cadastrado"
+                    ];
+                    echo json_encode($response, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+                    return;
+                }
+
                 $response = [
-                    "code" => 400,
-                    "type" => "bad_request",
-                    "message" => "Projeto não cadastrado"
+                    "code" => 200,
+                    "type" => "success",
+                    "message" => "Projeto encontrado com sucesso",
+                    "project" => [
+                        "id" => $project->getId(),
+                        "title" => $project->getTitle(),
+                        "abstract" => $project->getAbstract(),
+                    ]
                 ];
                 echo json_encode($response, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-                return;
             }
-
-            $response = [
-                "code" => 200,
-                "type" => "success",
-                "message" => "Projeto encontrado com sucesso",
-                "project" => [
-                    "id" => $project->getId(),
-                    "title" => $project->getTitle(),
-                    "abstract" => $project->getAbstract(),
-                ]
-            ];
-            echo json_encode($response, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
         }
     }
 }
