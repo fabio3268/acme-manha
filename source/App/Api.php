@@ -10,17 +10,13 @@ use Source\Models\User;
  */
 class Api
 {
-    /**
-     * @var User
-     */
+    /** @var User */
     private $user;
-    /**
-     * @var array|false
-     */
+    /** @var array|false */
     private $headers;
 
     /**
-     *
+     * construct
      */
     public function __construct()
     {
@@ -54,16 +50,20 @@ class Api
 
     /**
      * @return void
+     * http://www.localhost/acme-manha/api/user/name/fabio/email/fabio@gmail.com/password/1234567
      */
-    public function createUser()
+    public function createUser(array $data)
     {
+        //var_dump($data);
+
         $user = new User(
             NULL,
-            $this->headers["Name"],
-            $this->headers["Email"],
-            $this->headers["Password"]
+            $data["name"],
+            $data["email"],
+            $data["password"]
         );
-        $user->insert();
+
+        //$user->insert();
         $response = [
             "code" => 200,
             "type" => "success",

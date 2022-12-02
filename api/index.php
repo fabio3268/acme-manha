@@ -19,7 +19,8 @@ $route->get("/user/projects","Api:getProjects");
 $route->get("/user/project/{idProject}","Api:getProject");
 
 // cadastra um novo usuário
-$route->post("/user","Api:createUser");
+// http://www.localhost/acme-manha/api/user/name/fabio/email/fabio@gmail.com/password/1234567
+$route->post("/user/name/{name}/email/{email}/password/{password}","Api:createUser");
 $route->put("/user","Api:updateUser");
 
 $route->dispatch();
