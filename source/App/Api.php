@@ -2,6 +2,7 @@
 
 namespace Source\App;
 
+use Source\Models\Project;
 use Source\Models\User;
 
 class Api
@@ -88,5 +89,58 @@ class Api
         ];
         echo json_encode($response,JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
     }
+
+    public function getProject(array $data)
+    {
+        if(!empty($data["idProject"])){
+            $project = new Project($data["idProject"]);
+            if(!$project->findById()){
+                $response = [
+                    "code" => 400,
+                    "type" => "bad_request",
+                    "message" => "Projeto não cadastrado..."
+                ];
+                echo json_encode($response,JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+                return;
+            }
+
+            $response = [
+                "code" => 200,
+                "type" => "success",
+                "message" => "Projeto encontrado...",
+                "project" => [
+                    "id" => $project->getId(),
+                    "title" => $project->getTitle(),
+                    "abstract" => $project->getAbstract()
+                ]
+            ];
+            echo json_encode($response,JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+        }
+    }
+
+    public function getProjects()
+    {
+       $project = new Project();
+
+       if(!$project->findByidUser($this->user->getId())){
+           $response = [
+               "code" => 400,
+               "type" => "bad_request",
+               "message" => "Esse usário não possui projetos ainda..."
+           ];
+           echo json_encode($response,JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+           return;
+       }
+
+       $response = [
+           "code" => 200,
+           "type" => "success",
+           "message" => "Projetos encontrado com sucesso...",
+           "projects" => $project->findByidUser($this->user->getId())
+       ];
+        echo json_encode($response,JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+    }
+
+
 
 }

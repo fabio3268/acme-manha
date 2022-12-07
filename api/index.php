@@ -16,6 +16,10 @@ $route->put("/user/name/{name}/email/{email}/document/{document}","Api:updateUse
 // http://www.localhost/acme-manha/api/user/name/Fábio/email/fabio@gmail.com/password/12345678
 $route->post("/user/type/{type}/name/{name}/email/{email}/password/{password}", "Api:createUser");
 
+$route->get("/user/project/{idProject}", "Api:getProject");
+
+$route->get("/user/projects", "Api:getProjects");
+
 
 $route->dispatch();
 

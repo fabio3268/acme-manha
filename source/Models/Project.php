@@ -123,6 +123,7 @@ class Project
         $query = "SELECT * 
                   FROM projects 
                   JOIN write_projects ON projects.id = write_projects.idProject 
+                  JOIN categories ON projects.idCategory = categories.id
                   WHERE write_projects.idUser = :idUser";
         $stmt = Connect::getInstance()->prepare($query);
         $stmt->bindParam(":idUser", $idUser);
