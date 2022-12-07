@@ -12,6 +12,7 @@ class User
     private $password;
     private $document;
     private $photo;
+    private $type;
     private $message;
 
     /**
@@ -93,6 +94,24 @@ class User
     {
         $this->document = $document;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * @param mixed $type
+     */
+    public function setType($type): void
+    {
+        $this->type = $type;
+    }
+
+
 
     public function getMessage(): ?string
     {
@@ -179,18 +198,20 @@ class User
 
     public function update()
     {
-        $query = "UPDATE users SET name = :name, email = :email, photo = :photo WHERE id = :id";
+        $query = "UPDATE users SET name = :name, email = :email, photo = :photo, document = :document WHERE id = :id";
         $stmt = Connect::getInstance()->prepare($query);
         $stmt->bindParam(":name",$this->name);
         $stmt->bindParam(":email",$this->email);
         $stmt->bindParam(":photo",$this->photo);
+        $stmt->bindParam(":document",$this->document);
         $stmt->bindParam(":id",$this->id);
         $stmt->execute();
         $arrayUser = [
             "id" => $this->id,
             "name" => $this->name,
             "email" => $this->email,
-            "photo" => $this->photo
+            "photo" => $this->photo,
+            "document" => $this->document
         ];
         $_SESSION["user"] = $arrayUser;
         $this->message = "Usuário alterado com sucesso!";
@@ -198,10 +219,11 @@ class User
 
     public function insert() : bool
     {
-        $query = "INSERT INTO users (name, email, password) VALUES (:name, :email, :password)";
+        $query = "INSERT INTO users (name, email, password, type) VALUES (:name, :email, :password, :type)";
         $stmt = Connect::getInstance()->prepare($query);
         $stmt->bindParam(":name", $this->name);
         $stmt->bindParam(":email", $this->email);
+        $stmt->bindParam(":type",$this->type);
         $stmt->bindValue(":password", password_hash($this->password,PASSWORD_DEFAULT));
         $stmt->execute();
         $this->id = Connect::getInstance()->lastInsertId();
@@ -231,6 +253,7 @@ class User
         $this->id = $user->id;
         $this->name = $user->name;
         $this->email = $user->email;
+        $this->document = $user->document;
         $this->message = "Usuário Autorizado, redirect to APP!";
 
         $arrayUser = [

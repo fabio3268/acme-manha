@@ -2,161 +2,91 @@
 
 namespace Source\App;
 
-use Source\Models\Project;
 use Source\Models\User;
 
-/**
- *
- */
 class Api
 {
-    /** @var User */
     private $user;
-    /** @var array|false */
-    private $headers;
 
-    /**
-     * construct
-     */
     public function __construct()
     {
         header('Content-Type: application/json; charset=UTF-8');
         $headers = getallheaders();
-        if($headers["Rule"] == "N"){
-           $this->headers = $headers;
-           return;
-        } 
+        $this->user = new User();
+
+        if($headers["Rule"] === "N"){
+            return;
+        }
+
         if(empty($headers["Email"]) || empty($headers["Password"]) || empty($headers["Rule"])){
             $response = [
                 "code" => 400,
                 "type" => "bad_request",
-                "message" => "Informe E-mail, Senha e Tipo de Usuário para acessar"
+                "message" => "Por favor, informe Email e Senha!"
             ];
             echo json_encode($response, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
             return;
         }
 
-        $this->user = new User();
         if(!$this->user->validate($headers["Email"],$headers["Password"])){
             $response = [
                 "code" => 401,
                 "type" => "unauthorized",
-                "message" => "E-mail ou Senha inválidos"
+                "message" => $this->user->getMessage()
             ];
             echo json_encode($response, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
             return;
         }
+
     }
 
-    /**
-     * @return void
-     * http://www.localhost/acme-manha/api/user/name/fabio/email/fabio@gmail.com/password/1234567
-     */
-    public function createUser(array $data)
-    {
-        //var_dump($data);
-
-        $user = new User(
-            NULL,
-            $data["name"],
-            $data["email"],
-            $data["password"]
-        );
-
-        //$user->insert();
-        $response = [
-            "code" => 200,
-            "type" => "success",
-            "message" => "Usuário cadastrado com sucesso...",
-            "user" => $user->getArray()
-        ];
-        echo json_encode($response, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-    }
-
-    /**
-     * @return void
-     */
-    public function updateUser()
-    {
-        $response = [
-            "code" => 200,
-            "type" => "success",
-            "message" => "Alterando um usuário..."
-        ];
-        echo json_encode($response, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-    }
-
-    /**
-     * @return void
-     */
     public function getUser()
     {
-        // Só mostra quando encontrar
         if($this->user->getId() != null){
-            echo json_encode($this->user->getArray(),JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+            echo json_encode($this->user->getArray(), JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
         }
     }
 
-    /**
-     * @return void
-     */
-    public function getProjects()
+    public function updateUser(array $data) : void
     {
         if($this->user->getId() != null){
-            $projects = new Project();
-
-            if(!$projects->findByidUser($this->user->getId())){
-                $response = [
-                    "code" => 400,
-                    "type" => "bad_request",
-                    "message" => "Autor não tem projetos cadastrados"
-                ];
-                echo json_encode($response, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-                return;
-            }
-
+            $this->user->setName($data["name"]);
+            $this->user->setEmail($data["email"]);
+            $this->user->setDocument($data["document"]);
+            $this->user->update();
             $response = [
                 "code" => 200,
                 "type" => "success",
-                "message" => "Projetos encontrados com sucesso",
-                "projects" => $projects->findByidUser($this->user->getId())
+                "message" => "Usuário alterado com sucesso!"
+            ];
+            echo json_encode($response, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+        }
+    }
+    // api/user/type/W/name/Fábio/email/fabio@gmail.com/password/12345678
+    public function createUser(array $data)
+    {
+
+        if($this->user->findByEmail($data["email"])){
+            $response = [
+                "code" => 400,
+                "type" => "bad_request",
+                "message" => "E-mail já cadastrado"
             ];
             echo json_encode($response,JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+            return;
         }
+
+        $this->user->setType($data["type"]);
+        $this->user->setName($data["name"]);
+        $this->user->setEmail($data["email"]);
+        $this->user->setPassword($data["password"]);
+        $this->user->insert();
+        $response = [
+            "code" => 200,
+            "type" => "success",
+            "message" => "Usuário cadastrado com sucesso"
+        ];
+        echo json_encode($response,JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
     }
 
-    /**
-     * @param array $data
-     * @return void
-     */
-    public function getProject(array $data) : void
-    {
-        if($this->user->getId() != null){
-            if(!empty($data)){
-                $project = new Project($data["idProject"]);
-
-                if(!$project->findByid()){
-                    $response = [
-                        "code" => 400,
-                        "type" => "bad_request",
-                        "message" => "Projeto não cadastrado"
-                    ];
-                    echo json_encode($response, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-                    return;
-                }
-
-                $response = [
-                    "code" => 200,
-                    "type" => "success",
-                    "message" => "Projeto encontrado com sucesso",
-                    "project" => [
-                        "id" => $project->getId(),
-                        "title" => $project->getTitle(),
-                        "abstract" => $project->getAbstract(),
-                    ]
-                ];
-                echo json_encode($response, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-            }
-        }
-    }
 }

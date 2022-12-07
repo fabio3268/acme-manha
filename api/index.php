@@ -2,33 +2,24 @@
 
 ob_start();
 
-require __DIR__ . "/../vendor/autoload.php";
+require  __DIR__ . "/../vendor/autoload.php";
+
 use CoffeeCode\Router\Router;
 
-$route = new Router(url(), ":");
+$route = new Router(url(),":");
 
 $route->namespace("Source\App");
 
-// USERS
-// get dos dados do usuário
 $route->get("/user","Api:getUser");
+// http://www.localhost/acme-manha/api/user/name/Fábio Santos/email/fabio@gmail.com/document/987654321
+$route->put("/user/name/{name}/email/{email}/document/{document}","Api:updateUser");
+// http://www.localhost/acme-manha/api/user/name/Fábio/email/fabio@gmail.com/password/12345678
+$route->post("/user/type/{type}/name/{name}/email/{email}/password/{password}", "Api:createUser");
 
-// get dos projetos de um usuário
-$route->get("/user/projects","Api:getProjects");
-// get de um único projeto
-$route->get("/user/project/{idProject}","Api:getProject");
-
-// cadastra um novo usuário
-// http://www.localhost/acme-manha/api/user/name/fabio/email/fabio@gmail.com/password/1234567
-$route->post("/user/name/{name}/email/{email}/password/{password}","Api:createUser");
-$route->put("/user","Api:updateUser");
 
 $route->dispatch();
 
-/*
- * Error Redirect
- */
-
+/** ERROR REDIRECT */
 if ($route->error()) {
     header('Content-Type: application/json; charset=UTF-8');
     http_response_code(404);
