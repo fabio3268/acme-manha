@@ -140,7 +140,8 @@ class User
         string $email = NULL,
         string $password = NULL,
         string $document= NULL,
-        string $photo = NULL
+        string $photo = NULL,
+        string $type = 'W'
     )
     {
         $this->id = $id;
@@ -149,6 +150,7 @@ class User
         $this->password = $password;
         $this->document = $document;
         $this->photo = $photo;
+        $this->type = $type;
     }
 
     public function selectAll ()
