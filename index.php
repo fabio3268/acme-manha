@@ -73,6 +73,8 @@ $route->group(null); // desagrupo do /app
 
 $route->group("/admin"); // agrupa em /admin
 $route->get("/","Adm:home");
+$route->get("/faq-registro","Adm:faqRegister");
+$route->post("/faq-registro","Adm:faqRegister");
 $route->group(null); // desagrupo do /admin
 
 /*

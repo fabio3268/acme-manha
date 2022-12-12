@@ -261,7 +261,8 @@ class User
         $arrayUser = [
             "id" => $this->id,
             "name" => $this->name,
-            "email" => $this->email
+            "email" => $this->email,
+            "photo" => $this->photo,
         ];
 
         $_SESSION["user"] = $arrayUser;

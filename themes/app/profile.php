@@ -19,14 +19,18 @@ $this->layout("_theme");
         <div class="mb-3">
             <button type="submit" class="btn btn-primary" name="send">Alterar</button>
         </div>
-        <div class="alert alert-primary" role="alert" id="message">
+        <div class="alert alert-primary" style="display: none" role="alert" id="message">
             Mensagem de Retorno!
         </div>
         <div class="mb-3">
             <?php
             if(!empty($user->getPhoto())):
-                ?>
+            ?>
                 <img src="<?= url($user->getPhoto()); ?>" class="img-thumbnail" id="photoShow" alt="...">
+            <?php
+            else:
+            ?>
+                <img src="<?= url("assets/app/images/user-photo-null.jpg"); ?>" class="img-thumbnail" id="photoShow" alt="...">
             <?php
             endif;
             ?>
@@ -45,14 +49,18 @@ $this->layout("_theme");
             body: dataUser,
         });
         const user = await data.json();
-        console.log(user.photo);
+        console.log(user);
         if(user) {
-            if(user.type === "alert-success") {
+            if(user.type === "alert-success" && user.photo != null) {
                 photoShow.setAttribute("src",user.photo);
             }
+            message.setAttribute("style","display");
             message.textContent = user.message;
             message.classList.remove("alert-primary", "alert-danger");
             message.classList.add(`${user.type}`);
+            setTimeout(() => {
+                message.setAttribute("style","display: none")
+            },3000);
         }
     });
 </script>

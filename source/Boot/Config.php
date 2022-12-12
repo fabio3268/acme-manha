@@ -19,7 +19,7 @@ define("CONF_URL_TEST", "http://www.localhost/acme-manha"); // depois da / deve 
 
 define("CONF_VIEW_WEB", __DIR__ . "/../../themes/web");
 define("CONF_VIEW_APP", __DIR__ . "/../../themes/app");
-define("CONF_VIEW_ADMIN", __DIR__ . "/../../themes/admin");
+define("CONF_VIEW_ADMIN", __DIR__ . "/../../themes/adm");
 
 
 // SITE

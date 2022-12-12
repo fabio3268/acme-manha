@@ -74,10 +74,10 @@ class App
 
             if(!empty($_FILES['photo']['tmp_name'])) {
                 $upload = uploadImage($_FILES['photo']);
-                unlink($_SESSION["user"]["photo"]);
+                //unlink($_SESSION["user"]["photo"]);
             } else {
                 // se não houve alteração da imagem, manda a imagem que está na sessão
-                $upload = $_SESSION["user"]["photo"];
+                $upload = $_SESSION["user"]["photo"] ? : NULL;
             }
 
             $user = new User(
@@ -94,7 +94,7 @@ class App
                 "type" => "alert-success",
                 "name" => $user->getName(),
                 "email" => $user->getEmail(),
-                "photo" => url($user->getPhoto())
+                "photo" => $user->getPhoto() ? url($user->getPhoto()) : NULL
             ];
             echo json_encode($userJson);
         }
